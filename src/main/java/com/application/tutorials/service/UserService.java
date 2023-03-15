@@ -39,7 +39,7 @@ public class UserService {
         Department userDepartment = verifyDepartmentById(newUser.getDepartmentId());
         if (userDepartment == null)
             return null;
-        if (verifyEmail(newUser.getEmail()))
+        if (doesEmailExist(newUser.getEmail()))
             return null;
         user.setDepartment(userDepartment);
         User savedUser = userRepository.save(user);
@@ -67,10 +67,10 @@ public class UserService {
         }
         return userDepartments.get(0);
     }
-
+//check this for me
     public UserDTO saveUser(BasicUserInfo userInfo) {
         User user = userInfo.toEntity();
-        if (verifyEmail(userInfo.getEmail())) {
+        if (doesEmailExist(userInfo.getEmail())) {
             return null;
         }
         Department userDepartment = verifyDepartmentByName(userInfo.getDepartmentName());
@@ -81,8 +81,8 @@ public class UserService {
         return savedUser.toDto();
     }
 
-    public boolean verifyEmail(String email) {
-        if (email == null) {
+    public boolean doesEmailExist(String email) {
+        if (email == null || email.equalsIgnoreCase("")){
             return true;
         }
         Integer emailCount = userRepository.countUsersByEmailIsLike(email.trim());

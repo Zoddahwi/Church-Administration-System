@@ -27,8 +27,7 @@ public class BasicUserInfo {
             newUser.setFirstName(this.firstName.trim());
         if(this.lastName != null)
             newUser.setLastName(this.lastName.trim());
-        if(this.departmentName != null)
-            newUser.setDepartment(this.toEntity().getDepartment());
+
         return newUser;
     }
 

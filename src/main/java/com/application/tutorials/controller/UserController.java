@@ -75,6 +75,7 @@ public class UserController {
             return userService.saveUser(basicUserInfo);
         }else{
             UserDTO userDto = mapper.map(userInfo, UserDTO.class);
+            userDto.setDepartmentId(UUID.fromString(userInfo.get("departmentId")));
             return userService.saveUser(userDto);
         }
     }

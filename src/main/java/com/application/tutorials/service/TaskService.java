@@ -1,5 +1,6 @@
 package com.application.tutorials.service;
 
+import com.application.tutorials.dto.BasicTaskInfo;
 import com.application.tutorials.dto.TaskDTO;
 import com.application.tutorials.model.Task;
 import com.application.tutorials.model.User;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class TaskService {
@@ -21,18 +23,31 @@ public class TaskService {
     @Autowired
     private UserRepository userRepository;
 
-    public TaskDTO saveTask(TaskDTO taskDto) {
-        Task task = taskDto.toEntity();
-        if(taskDto.getUserId() == null || taskDto.getUserId().toString().equalsIgnoreCase("")){
+    public TaskDTO saveTask(BasicTaskInfo taskInfo) {
+        Task task = taskInfo.toEntity();
+        if(taskInfo.getUserId() == null || taskInfo.getUserId().toString().equalsIgnoreCase("")){
             return null;
         }
-        Optional<User> userExists = userRepository.findById(taskDto.getUserId());
+        Optional<User> userExists = userRepository.findById(taskInfo.getUserId());
         if(userExists.isEmpty()){
             return null;
         }
         task.setUser(userExists.get());
         Task savedTask = taskRepository.save(task);
         return savedTask.toDto();
+    }
+
+
+
+    private User verifyUserById(UUID userId) {
+        if(userId == null || userId.toString().equalsIgnoreCase("")){
+            return null;
+        }
+        Optional<User> userExists = userRepository.findById(userId);
+        if(userExists.isEmpty()){
+            return null;
+        }
+        return userExists.get();
     }
 
     public List<TaskDTO> getTasks() {

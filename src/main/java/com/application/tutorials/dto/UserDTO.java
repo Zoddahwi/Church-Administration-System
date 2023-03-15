@@ -32,8 +32,6 @@ public class UserDTO {
             newUser.setFirstName(this.firstName.trim());
         if(this.lastName != null)
             newUser.setLastName(this.lastName.trim());
-        if(this.department != null)
-            newUser.setDepartment(this.department.toEntity());
 
         return newUser;
     }
@@ -45,7 +43,6 @@ public class UserDTO {
                 ", \n\t'firstName' : '" + firstName + '\'' +
                 ", \n\t'lastName' : '" + lastName + '\'' +
                 ", \n\t'email' : '" + email + '\'' +
-                ", \n\t'department' : '" + department + '\'' +
                 "\n}";
     }
 }
